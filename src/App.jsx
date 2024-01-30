@@ -1,7 +1,6 @@
 import ItemsList from "./component/ItemsList";
 import Students from "./component/StudentsList";
 import Subjects from "./component/SubjectsList";
-import ItemFormFind from "./component/ItemFormFind";
 import "./App.css";
 
 function App() {
@@ -17,9 +16,6 @@ function App() {
         </div>
         <div className="card">
           <Students />
-        </div>
-        <div className="card">
-          <ItemFormFind />
         </div>
       </div>
     </>
