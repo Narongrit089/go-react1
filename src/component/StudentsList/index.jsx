@@ -2,26 +2,24 @@ import React, { useState, useEffect } from "react";
 import Student from "../Student";
 
 const StudentsList = () => {
-  const [students, setStudents] = useState([]); // State to store the items
-  const [isLoading, setIsLoading] = useState(true); // State to handle loading status
-  const [error, setError] = useState(null); // State to handle any errors
+  const [students, setStudents] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const [inputId, setInputId] = useState("");
   const [studentId, setStudentId] = useState(null);
 
   useEffect(() => {
     console.log("Updated StudentId=" + studentId);
-  }, [studentId]); // This effect will run whenever itemId changes
+  }, [studentId]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // print inputId to console
     console.log("inputId=" + inputId);
-    setStudentId(Number(inputId)); // Convert inputId to a number
+    setStudentId(Number(inputId));
     console.log("itemId=" + studentId);
   };
 
-  // Function to fetch items from the API
   const fetchStudents = async () => {
     try {
       const response = await fetch("http://localhost:5000/students");
@@ -29,7 +27,7 @@ const StudentsList = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      setStudents(data); // Update the state with the fetched items data into the items array
+      setStudents(data);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -42,25 +40,34 @@ const StudentsList = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Students List</h1>
+    <div className="container mx-auto py-8">
+      <h1 className="text-3xl font-bold mb-4">Students List</h1>
       {isLoading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>}
+      {error && <p className="text-red-500">Error: {error}</p>}
       {students.length > 0 && (
-        <table>
+        <table className="w-full border-collapse border border-gray-300">
           <thead>
-            <tr>
-              <th>ID</th>
-              <th>Code</th>
-              <th>Name</th>
+            <tr className="bg-gray-100">
+              <th className="py-2 px-4 border border-gray-300">ID</th>
+              <th className="py-2 px-4 border border-gray-300">Code</th>
+              <th className="py-2 px-4 border border-gray-300">Name</th>
             </tr>
           </thead>
           <tbody>
             {students.map((student) => (
-              <tr key={student.ID}>
-                <td>{student.ID}</td>
-                <td>{student.Code}</td>
-                <td>{student.Name}</td>
+              <tr
+                key={student.ID}
+                className="transition-all duration-200 hover:bg-gray-100"
+              >
+                <td className="py-2 px-4 border border-gray-300">
+                  {student.ID}
+                </td>
+                <td className="py-2 px-4 border border-gray-300">
+                  {student.Code}
+                </td>
+                <td className="py-2 px-4 border border-gray-300">
+                  {student.Name}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -68,19 +75,24 @@ const StudentsList = () => {
       )}
       <br />
 
-      <form onSubmit={handleSubmit}>
-        <label>
-          Enter Subject ID:
+      <form onSubmit={handleSubmit} className="mb-4">
+        <label className="block">
+          Enter Student ID:
           <input
             type="number"
             value={inputId}
             onChange={(e) => setInputId(e.target.value)}
+            className="block w-full mt-1 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring focus:border-blue-500"
             required
           />
         </label>
-        <button type="submit">Submit</button>
+        <button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 mt-2 rounded-md hover:bg-blue-600 transition-colors duration-300"
+        >
+          Submit
+        </button>
       </form>
-      {/* Render the Item component if itemId is not null */}
       {studentId !== null && <Student id={studentId} />}
     </div>
   );

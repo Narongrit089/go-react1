@@ -42,43 +42,55 @@ const ItemsList = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Items List</h1>
+    <div className="container mx-auto py-8">
+      <h1 className="text-3xl font-bold mb-4">Items List</h1>
       {isLoading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>}
+      {error && <p className="text-red-500">Error: {error}</p>}
       {items.length > 0 && (
-        <table>
+        <table className="w-full border-collapse border border-gray-300">
           <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Price</th>
+            <tr className="bg-gray-100">
+              <th className="py-2 px-4 border border-gray-300">ID</th>
+              <th className="py-2 px-4 border border-gray-300">Name</th>
+              <th className="py-2 px-4 border border-gray-300">Price</th>
             </tr>
           </thead>
           <tbody>
             {items.map((item) => (
-              <tr key={item.ID}>
-                <td>{item.ID}</td>
-                <td>{item.Name}</td>
-                <td>{item.Price}</td>
+              <tr
+                key={item.ID}
+                className="transition-all duration-200 hover:bg-gray-100"
+              >
+                <td className="py-2 px-4 border border-gray-300">{item.ID}</td>
+                <td className="py-2 px-4 border border-gray-300">
+                  {item.Name}
+                </td>
+                <td className="py-2 px-4 border border-gray-300">
+                  {item.Price}
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       )}
       <br />
-
-      <form onSubmit={handleSubmit}>
-        <label>
+      <form onSubmit={handleSubmit} className="mb-4">
+        <label className="block">
           Enter Item ID:
           <input
             type="number"
             value={inputId}
             onChange={(e) => setInputId(e.target.value)}
+            className="block w-full mt-1 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring focus:border-blue-500"
             required
           />
         </label>
-        <button type="submit">Submit</button>
+        <button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 mt-2 rounded-md hover:bg-blue-600 transition-colors duration-300"
+        >
+          Submit
+        </button>
       </form>
       {/* Render the Item component if itemId is not null */}
       {itemId !== null && <Item id={itemId} />}
